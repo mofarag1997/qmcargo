@@ -93,18 +93,18 @@ export default function Landing({ language }: LandingProps) {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative h-[500px] md:h-[700px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[380px] sm:h-[420px] md:h-[700px] flex items-center justify-center overflow-hidden mb-[5px] md:mb-0">
         {/* Background Images */}
         <div className="absolute inset-0">
-          <img 
-            src={imgHero} 
-            alt="" 
-            className="absolute h-[205.71%] left-0 max-w-none top-[-52.86%] w-full object-cover"
+          <img
+            src={imgHero}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
           />
-          <img 
-            src={imgTrucks} 
-            alt="" 
-            className="absolute inset-0 max-w-none object-cover w-full h-full"
+          <img
+            src={imgTrucks}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
           />
         </div>
 
@@ -112,7 +112,7 @@ export default function Landing({ language }: LandingProps) {
         <div className="absolute inset-0 bg-gradient-to-l from-[rgba(10,31,68,0.9)] to-[rgba(30,64,175,0.8)]" />
 
         {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pb-4 md:pb-0">
           <div className="flex flex-col items-center gap-6">
             {/* Tag */}
             <div className="backdrop-blur-sm bg-[rgba(212,175,55,0.2)] px-4 py-2 rounded-full">
@@ -160,7 +160,7 @@ export default function Landing({ language }: LandingProps) {
             </div>
 
             {/* Stats */}
-            <div className="flex flex-wrap justify-center gap-4 md:gap-8 mt-8">
+            <div className="flex flex-wrap justify-center gap-4 md:gap-8 mt-8 mb-[12px] md:mb-0">
               <div className="backdrop-blur-md bg-[rgba(255,255,255,0.1)] px-6 py-4 rounded-lg">
                 <p className="font-['Tajawal:Bold',sans-serif] text-[#d4af37] text-2xl md:text-3xl">{t.stat1}</p>
                 <p className="font-['Tajawal:Regular',sans-serif] text-gray-200 text-sm">{t.stat1Label}</p>
@@ -179,7 +179,7 @@ export default function Landing({ language }: LandingProps) {
       </section>
 
       {/* About Section */}
-      <section className="bg-gray-500 py-12 md:py-20">
+      <section className="bg-gray-500 py-12 md:py-20 mt-[5px] md:mt-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
             {/* Text Content */}
