@@ -1,5 +1,9 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "build",
-  "devCommand": "npm run dev"
+  "devCommand": "npm run dev",
+  "rewrites": [
+    { "source": "/contact", "destination": "/index.html" },
+    { "source": "/services", "destination": "/index.html" }
+  ]
 }
