@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Globe } from 'lucide-react';
 import { useState } from 'react';
-
+import Logo from '../assets/Logo.png';
 interface HeaderProps {
   language: string;
   toggleLanguage: () => void;
@@ -37,25 +37,27 @@ export default function Header({ language, toggleLanguage }: HeaderProps) {
   ];
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header className="bg-white shadow-sm sticky top-0 w-full z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          {/* Logo - Always Left */}
+        <div className="flex justify-between items-center h-14 md:h-16">
+          {/* Logo */}
           <div style={{ order: 1 }}>
-            <Link to="/" className="flex items-center gap-2">
-              <div className="bg-blue-800 text-white px-4 py-2 rounded-md">
-                <span className="font-['Tajawal:Bold',sans-serif]">{t.companyName}</span>
-              </div>
+            <Link to="/" className="flex items-center gap-2 h-full">
+              <img
+                 src={Logo}
+                 alt="Logo"
+                className="w-auto h-32 sm:h-24 md:h-28 lg:h-32 object-contain block"
+               /> 
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8" style={{ order: 2 }}>
+          <nav className="hidden md:flex items-center gap-6" style={{ order: 2 }}>
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-['Tajawal:Medium',sans-serif] transition-colors ${
+                className={`font-['Tajawal:Medium',sans-serif] transition-colors text-base md:text-lg ${
                   location.pathname === link.path
                     ? 'text-blue-800'
                     : 'text-gray-700 hover:text-blue-800'
@@ -69,7 +71,7 @@ export default function Header({ language, toggleLanguage }: HeaderProps) {
           {/* Language Toggle Button - Desktop */}
           <button
             onClick={toggleLanguage}
-            className="hidden md:flex items-center gap-2 bg-[#d4af37] text-white px-4 py-2 rounded-full hover:bg-[#c19d2f] transition-colors"
+            className="hidden md:flex items-center gap-2 bg-[#d4af37] text-white px-4 py-2 rounded-full hover:bg-[#c19d2f] transition-colors text-sm"
             aria-label="Toggle language"
             dir="ltr"
             style={{ direction: 'ltr', order: 3 }}
@@ -84,7 +86,7 @@ export default function Header({ language, toggleLanguage }: HeaderProps) {
           <div className="flex md:hidden items-center gap-2" style={{ order: 3 }}>
             <button
               onClick={toggleLanguage}
-              className="p-2 bg-[#d4af37] text-white rounded-full hover:bg-[#c19d2f] transition-colors"
+              className="p-3 bg-[#d4af37] text-white rounded-full hover:bg-[#c19d2f] transition-colors"
               aria-label="Toggle language"
               dir="ltr"
               style={{ direction: 'ltr' }}
@@ -93,7 +95,7 @@ export default function Header({ language, toggleLanguage }: HeaderProps) {
             </button>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 text-gray-700 hover:text-blue-800 transition-colors"
+              className="p-3 text-gray-700 hover:text-blue-800 transition-colors"
               aria-label="Toggle menu"
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

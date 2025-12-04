@@ -10,10 +10,16 @@ export default function Services({ language }: ServicesProps) {
     ar: {
       pageTitle: 'خدماتنا',
       pageSubtitle: 'نقدم مجموعة شاملة من خدمات الشحن والنقل لتلبية جميع احتياجاتكم',
+      service1Title: 'الشحن الجوي',
+      service1Desc: 'خدمات شحن جوي سريعة وآمنة للبضائع الحساسة والطرود المستعجلة',
+      service2Title: 'الشحن البحري',
+      service2Desc: 'حلول شحن بحري اقتصادية للشحنات الكبيرة والحاويات',
       service3Title: 'الشحن البري',
       service3Desc: 'خدمات نقل برية موثوقة داخل الإمارات ودول الخليج',
       service4Title: 'التخليص الجمركي',
       service4Desc: 'خدمات تخليص جمركي متكاملة لتسهيل إجراءات الاستيراد والتصدير',
+      service5Title: 'الشحن الدولي',
+      service5Desc: 'خدمات شحن دولية شاملة لجميع دول العالم بأسعار تنافسية',
       service6Title: 'التأمين على البضائع',
       service6Desc: 'حماية شاملة لبضائعكم ضد جميع المخاطر أثناء النقل',
       whyChooseTitle: 'لماذا تختار خدماتنا؟',
@@ -28,10 +34,16 @@ export default function Services({ language }: ServicesProps) {
     en: {
       pageTitle: 'Our Services',
       pageSubtitle: 'We offer a comprehensive range of shipping and transport services to meet all your needs',
+      service1Title: 'Air Shipping',
+      service1Desc: 'Fast and secure air shipping services for sensitive goods and urgent parcels',
+      service2Title: 'Sea Shipping',
+      service2Desc: 'Economical sea shipping solutions for large shipments and containers',
       service3Title: 'Land Transport',
       service3Desc: 'Reliable land transport services within UAE and GCC countries',
       service4Title: 'Customs Clearance',
       service4Desc: 'Complete customs clearance services to facilitate import and export procedures',
+      service5Title: 'International Shipping',
+      service5Desc: 'Comprehensive international shipping services to all countries worldwide at competitive prices',
       service6Title: 'Cargo Insurance',
       service6Desc: 'Comprehensive protection for your goods against all risks during transport',
       whyChooseTitle: 'Why Choose Our Services?',
@@ -49,6 +61,18 @@ export default function Services({ language }: ServicesProps) {
 
   const services = [
     {
+      icon: <Plane className="w-10 h-10" />,
+      title: t.service1Title,
+      description: t.service1Desc,
+      color: 'gold'
+    },
+    {
+      icon: <Ship className="w-10 h-10" />,
+      title: t.service2Title,
+      description: t.service2Desc,
+      color: 'gold'
+    },
+    {
       icon: <Truck className="w-10 h-10" />,
       title: t.service3Title,
       description: t.service3Desc,
@@ -58,6 +82,12 @@ export default function Services({ language }: ServicesProps) {
       icon: <Package className="w-10 h-10" />,
       title: t.service4Title,
       description: t.service4Desc,
+      color: 'gold'
+    },
+    {
+      icon: <Globe className="w-10 h-10" />,
+      title: t.service5Title,
+      description: t.service5Desc,
       color: 'gold'
     },
     {

@@ -93,7 +93,7 @@ export default function Landing({ language }: LandingProps) {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative h-[380px] sm:h-[420px] md:h-[700px] flex items-center justify-center overflow-hidden mb-[5px] md:mb-0">
+      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-between h-full">
         {/* Background Images */}
         <div className="absolute inset-0">
           <img
@@ -112,7 +112,7 @@ export default function Landing({ language }: LandingProps) {
         <div className="absolute inset-0 bg-gradient-to-l from-[rgba(10,31,68,0.9)] to-[rgba(30,64,175,0.8)]" />
 
         {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pb-4 md:pb-0">
+        <div className="relative my-20 z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pb-4 md:pb-0">
           <div className="flex flex-col items-center gap-6">
             {/* Tag */}
             <div className="backdrop-blur-sm bg-[rgba(212,175,55,0.2)] px-4 py-2 rounded-full">
@@ -179,7 +179,7 @@ export default function Landing({ language }: LandingProps) {
       </section>
 
       {/* About Section */}
-      <section className="bg-gray-500 py-12 md:py-20 mt-[5px] md:mt-0">
+      <section className="bg-gray-50 py-12 md:py-20 mt-[5px] md:mt-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
             {/* Text Content */}
