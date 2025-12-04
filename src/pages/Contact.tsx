@@ -1,6 +1,7 @@
 import svgPaths from "../imports/svg-wi14eunmrb";
 import { useState } from 'react';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 interface ContactProps {
   language: string;
@@ -13,6 +14,8 @@ export default function Contact({ language }: ContactProps) {
     phone: '',
     message: ''
   });
+
+  const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const translations = {
     ar: {
@@ -30,7 +33,7 @@ export default function Contact({ language }: ContactProps) {
       submitButton: 'إرسال الرسالة',
       contactInfoTitle: 'معلومات الاتصال',
       phone: '+971526497018',
-      email: 'info@qmcargo.ae',
+      email: 'info@gmcargo.com',
       address: 'دبي ابوهيل مكتب رقم 05',
       addressDetail: 'الإمارات العربية المتحدة',
       hours: 'ساعات العمل',
@@ -54,7 +57,7 @@ export default function Contact({ language }: ContactProps) {
       submitButton: 'Send Message',
       contactInfoTitle: 'Contact Information',
       phone: '+971526497018',
-      email: 'info@qmcargo.ae',
+      email: 'info@gmcargo.com',
       address: 'Dubai Abu Hail Office No. 05',
       addressDetail: 'United Arab Emirates',
       hours: 'Working Hours',
@@ -67,25 +70,27 @@ export default function Contact({ language }: ContactProps) {
 
   const t = translations[language as keyof typeof translations];
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Create WhatsApp message
-    const message = `
-Name: ${formData.name}
-Email: ${formData.email}
-Phone: ${formData.phone}
-Message: ${formData.message}
-    `.trim();
-    
-    const whatsappUrl = `https://wa.me/971526497018?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const serviceId = 'service_qmcargo';
+    const templateId = 'template_25jgkve';
+    const publicKey = 'SEl9uZ05lHK5cPjFC';
+
+    emailjs.send(serviceId, templateId, formData, publicKey)
+      .then(() => {
+        setToast({ type: 'success', message: language === 'ar' ? 'تم إرسال الرسالة بنجاح!' : 'Message sent successfully!' });
+        setFormData({ name: '', email: '', phone: '', message: '' });
+        setTimeout(() => setToast(null), 3000);
+      })
+      .catch(() => {
+        setToast({ type: 'error', message: language === 'ar' ? 'حدث خطأ أثناء إرسال الرسالة.' : 'Failed to send message.' });
+        setTimeout(() => setToast(null), 3000);
+      });
   };
 
   const handleWhatsApp = () => {
@@ -97,16 +102,19 @@ Message: ${formData.message}
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
+      {/* Toast Notification */}
+      {toast && (
+        <div className={`fixed top-4 right-4 px-6 py-4 rounded-lg shadow-lg text-white font-bold transition-transform transform ${toast.type === 'success' ? 'bg-green-600' : 'bg-red-600'}`}>
+          {toast.message}
+        </div>
+      )}
+
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-900 to-blue-800 text-white py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="font-['Tajawal:Bold',sans-serif] text-4xl md:text-5xl mb-4">
-            {t.pageTitle}
-          </h1>
-          <p className="font-['Tajawal:Regular',sans-serif] text-lg md:text-xl text-gray-200">
-            {t.pageSubtitle}
-          </p>
+          <h1 className="font-['Tajawal:Bold',sans-serif] text-4xl md:text-5xl mb-4">{t.pageTitle}</h1>
+          <p className="font-['Tajawal:Regular',sans-serif] text-lg md:text-xl text-gray-200">{t.pageSubtitle}</p>
         </div>
       </section>
 
@@ -116,85 +124,36 @@ Message: ${formData.message}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
             <div className="bg-white rounded-xl shadow-lg p-8">
-              <h2 className="font-['Tajawal:Bold',sans-serif] text-2xl md:text-3xl mb-6 text-[#0a1f44]">
-                {t.formTitle}
-              </h2>
+              <h2 className="font-['Tajawal:Bold',sans-serif] text-2xl md:text-3xl mb-6 text-[#0a1f44]">{t.formTitle}</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label className="block font-['Tajawal:Medium',sans-serif] text-gray-700 mb-2">
-                    {t.nameLabel}
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 font-['Tajawal:Regular',sans-serif]"
-                    placeholder={t.namePlaceholder}
-                  />
+                  <label className="block font-['Tajawal:Medium',sans-serif] text-gray-700 mb-2">{t.nameLabel}</label>
+                  <input type="text" name="name" value={formData.name} onChange={handleChange} required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 font-['Tajawal:Regular',sans-serif]" placeholder={t.namePlaceholder} />
                 </div>
 
                 <div>
-                  <label className="block font-['Tajawal:Medium',sans-serif] text-gray-700 mb-2">
-                    {t.emailLabel}
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 font-['Tajawal:Regular',sans-serif]"
-                    placeholder={t.emailPlaceholder}
-                  />
+                  <label className="block font-['Tajawal:Medium',sans-serif] text-gray-700 mb-2">{t.emailLabel}</label>
+                  <input type="email" name="email" value={formData.email} onChange={handleChange} required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 font-['Tajawal:Regular',sans-serif]" placeholder={t.emailPlaceholder} />
                 </div>
 
                 <div>
-                  <label className="block font-['Tajawal:Medium',sans-serif] text-gray-700 mb-2">
-                    {t.phoneLabel}
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 font-['Tajawal:Regular',sans-serif]"
-                    placeholder={t.phonePlaceholder}
-                  />
+                  <label className="block font-['Tajawal:Medium',sans-serif] text-gray-700 mb-2">{t.phoneLabel}</label>
+                  <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 font-['Tajawal:Regular',sans-serif]" placeholder={t.phonePlaceholder} />
                 </div>
 
                 <div>
-                  <label className="block font-['Tajawal:Medium',sans-serif] text-gray-700 mb-2">
-                    {t.messageLabel}
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={5}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 font-['Tajawal:Regular',sans-serif] resize-none"
-                    placeholder={t.messagePlaceholder}
-                  />
+                  <label className="block font-['Tajawal:Medium',sans-serif] text-gray-700 mb-2">{t.messageLabel}</label>
+                  <textarea name="message" value={formData.message} onChange={handleChange} required rows={5} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 font-['Tajawal:Regular',sans-serif] resize-none" placeholder={t.messagePlaceholder} />
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full bg-blue-800 hover:bg-blue-900 text-white py-4 rounded-lg font-['Tajawal:Bold',sans-serif] transition-colors"
-                >
-                  {t.submitButton}
-                </button>
+                <button type="submit" className="w-full bg-blue-800 hover:bg-blue-900 text-white py-4 rounded-lg font-['Tajawal:Bold',sans-serif] transition-colors">{t.submitButton}</button>
               </form>
             </div>
 
             {/* Contact Info */}
             <div className="space-y-6">
               <div className="bg-white rounded-xl shadow-lg p-8">
-                <h2 className="font-['Tajawal:Bold',sans-serif] text-2xl md:text-3xl mb-6 text-[#0a1f44]">
-                  {t.contactInfoTitle}
-                </h2>
+                <h2 className="font-['Tajawal:Bold',sans-serif] text-2xl md:text-3xl mb-6 text-[#0a1f44]">{t.contactInfoTitle}</h2>
 
                 <div className="space-y-6">
                   {/* Phone */}
@@ -203,21 +162,8 @@ Message: ${formData.message}
                       <Phone className="w-6 h-6 text-blue-800" />
                     </div>
                     <div>
-                      <h3 className="font-['Tajawal:Bold',sans-serif] text-[#0a1f44] mb-2">
-                        {language === 'ar' ? 'الهاتف' : 'Phone'}
-                      </h3>
-                      <a 
-                        href={`tel:${t.phone}`}
-                        className="font-['Tajawal:Regular',sans-serif] text-gray-600 hover:text-blue-800 block"
-                      >
-                        {t.phone}
-                      </a>
-                      <a 
-                        href={`tel:${t.phone2}`}
-                        className="font-['Tajawal:Regular',sans-serif] text-gray-600 hover:text-blue-800 block"
-                      >
-                        {t.phone2}
-                      </a>
+                      <h3 className="font-['Tajawal:Bold',sans-serif] text-[#0a1f44] mb-2">{language === 'ar' ? 'الهاتف' : 'Phone'}</h3>
+                      <a href={`tel:${t.phone}`} className="font-['Tajawal:Regular',sans-serif] text-gray-600 hover:text-blue-800 block">{t.phone}</a>
                     </div>
                   </div>
 
@@ -227,15 +173,8 @@ Message: ${formData.message}
                       <Mail className="w-6 h-6 text-[#d4af37]" />
                     </div>
                     <div>
-                      <h3 className="font-['Tajawal:Bold',sans-serif] text-[#0a1f44] mb-2">
-                        {language === 'ar' ? 'البريد الإلكتروني' : 'Email'}
-                      </h3>
-                      <a 
-                        href={`mailto:${t.email}`}
-                        className="font-['Tajawal:Regular',sans-serif] text-gray-600 hover:text-blue-800"
-                      >
-                        {t.email}
-                      </a>
+                      <h3 className="font-['Tajawal:Bold',sans-serif] text-[#0a1f44] mb-2">{language === 'ar' ? 'البريد الإلكتروني' : 'Email'}</h3>
+                      <a href={`mailto:${t.email}`} className="font-['Tajawal:Regular',sans-serif] text-gray-600 hover:text-blue-800">{t.email}</a>
                     </div>
                   </div>
 
@@ -245,15 +184,9 @@ Message: ${formData.message}
                       <MapPin className="w-6 h-6 text-blue-800" />
                     </div>
                     <div>
-                      <h3 className="font-['Tajawal:Bold',sans-serif] text-[#0a1f44] mb-2">
-                        {language === 'ar' ? 'العنوان' : 'Address'}
-                      </h3>
-                      <p className="font-['Tajawal:Regular',sans-serif] text-gray-600">
-                        {t.address}
-                      </p>
-                      <p className="font-['Tajawal:Regular',sans-serif] text-gray-600">
-                        {t.addressDetail}
-                      </p>
+                      <h3 className="font-['Tajawal:Bold',sans-serif] text-[#0a1f44] mb-2">{language === 'ar' ? 'العنوان' : 'Address'}</h3>
+                      <p className="font-['Tajawal:Regular',sans-serif] text-gray-600">{t.address}</p>
+                      <p className="font-['Tajawal:Regular',sans-serif] text-gray-600">{t.addressDetail}</p>
                     </div>
                   </div>
 
@@ -263,15 +196,9 @@ Message: ${formData.message}
                       <Clock className="w-6 h-6 text-[#d4af37]" />
                     </div>
                     <div>
-                      <h3 className="font-['Tajawal:Bold',sans-serif] text-[#0a1f44] mb-2">
-                        {t.hours}
-                      </h3>
-                      <p className="font-['Tajawal:Regular',sans-serif] text-gray-600">
-                        {t.hoursDetail}
-                      </p>
-                      <p className="font-['Tajawal:Regular',sans-serif] text-gray-600">
-                        {t.hoursDetail2}
-                      </p>
+                      <h3 className="font-['Tajawal:Bold',sans-serif] text-[#0a1f44] mb-2">{t.hours}</h3>
+                      <p className="font-['Tajawal:Regular',sans-serif] text-gray-600">{t.hoursDetail}</p>
+                      <p className="font-['Tajawal:Regular',sans-serif] text-gray-600">{t.hoursDetail2}</p>
                     </div>
                   </div>
                 </div>
@@ -279,24 +206,14 @@ Message: ${formData.message}
 
               {/* Quick Action Buttons */}
               <div className="space-y-4">
-                <button
-                  onClick={handleWhatsApp}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-4 rounded-lg shadow-lg flex items-center justify-center gap-3 font-['Tajawal:Bold',sans-serif] transition-all"
-                >
+                <button onClick={handleWhatsApp} className="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-4 rounded-lg shadow-lg flex items-center justify-center gap-3 font-['Tajawal:Bold',sans-serif] transition-all">
                   <span>{t.whatsappButton}</span>
-                  <svg className="w-6 h-6" fill="white" viewBox="0 0 21 24">
-                    <path d={svgPaths.p24436500} />
-                  </svg>
+                  <svg className="w-6 h-6" fill="white" viewBox="0 0 21 24"><path d={svgPaths.p24436500} /></svg>
                 </button>
 
-                <button
-                  onClick={handleCall}
-                  className="w-full bg-[#d4af37] hover:bg-[#c19d2f] text-white px-6 py-4 rounded-lg shadow-lg flex items-center justify-center gap-3 font-['Tajawal:Bold',sans-serif] transition-all"
-                >
+                <button onClick={handleCall} className="w-full bg-[#d4af37] hover:bg-[#c19d2f] text-white px-6 py-4 rounded-lg shadow-lg flex items-center justify-center gap-3 font-['Tajawal:Bold',sans-serif] transition-all">
                   <span>{t.callButton}</span>
-                  <svg className="w-5 h-5" fill="white" viewBox="0 0 18 18">
-                    <path d={svgPaths.p5f79f00} />
-                  </svg>
+                  <svg className="w-5 h-5" fill="white" viewBox="0 0 18 18"><path d={svgPaths.p5f79f00} /></svg>
                 </button>
               </div>
             </div>
@@ -312,7 +229,7 @@ Message: ${formData.message}
           width="100%"
           height="100%"
           style={{ border: 0 }}
-          allowFullScreen=""
+          allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         />

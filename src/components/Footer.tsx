@@ -12,7 +12,7 @@ export default function Footer({ language }: FooterProps) {
       contactInfo: 'معلومات الاتصال',
       address: 'دبي ابوهيل مكتب رقم 05',
       phone: '+971526497018',
-      email: 'info@qmcargo.ae',
+      email: 'info@qmcargo.com',
       rights: '© 2025 QM Cargo. جميع الحقوق محفوظة'
     },
     en: {
@@ -21,7 +21,7 @@ export default function Footer({ language }: FooterProps) {
       contactInfo: 'Contact Information',
       address: 'Dubai Abu Hail Office No. 05',
       phone: '+971526497018',
-      email: 'info@qmcargo.ae',
+      email: 'info@qmcargo.com',
       rights: '© 2025 QM Cargo. All rights reserved'
     }
   };
