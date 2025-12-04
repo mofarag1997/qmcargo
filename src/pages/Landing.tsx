@@ -93,19 +93,15 @@ export default function Landing({ language }: LandingProps) {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-between h-full">
+      <section className="w-full h-screen overflow-hidden">
         {/* Background Images */}
-        <div className="absolute inset-0">
+        <div className="absolute inset-0   inset-0 w-screen h-full">
           <img
             src={imgHero}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-screen h-full object-cover"
           />
-          <img
-            src={imgTrucks}
-            alt=""
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+       
         </div>
 
         {/* Gradient Overlay */}

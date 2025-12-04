@@ -132,6 +132,11 @@
     font-feature-settings: var(--default-font-feature-settings, normal);
     font-variation-settings: var(--default-font-variation-settings, normal);
     -webkit-tap-highlight-color: transparent;
+      margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
   }
 
   body {
@@ -143,6 +148,7 @@
     color: inherit;
     border-top-width: 1px;
   }
+  
 
   abbr:where([title]) {
     -webkit-text-decoration: underline dotted;
