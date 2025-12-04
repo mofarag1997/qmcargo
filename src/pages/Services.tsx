@@ -181,7 +181,7 @@ export default function Services({ language }: ServicesProps) {
             {t.ctaText}
           </p>
           <a
-            href="/contact"
+            href="/Contact"
             className="inline-block bg-white text-[#d4af37] px-8 py-4 rounded-lg font-['Tajawal:Bold',sans-serif] hover:bg-gray-100 transition-colors shadow-lg"
           >
             {t.ctaButton}
